@@ -1,0 +1,204 @@
+body {
+    font-family: Roboto Condensed;
+    color: #333;
+    background: url("../img/background.jpg") no-repeat;
+}
+
+.page {
+    margin: 30px auto 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+}
+
+#logo {
+    background: url("../img/logo.png") no-repeat;
+    background-size: 720px 120px;
+    width: 720px;
+    height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+#team-boy {
+    background: url("../img/team-boy.jpg") no-repeat;
+    background-size: 150px 150px;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    position: absolute;
+    left: 40px;
+}
+#team-girl {
+    background: url("../img/team-girl.jpg") no-repeat;
+    background-size: 150px 150px;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    position: absolute;
+    right: 40px;
+}
+
+#question {
+    font-size: 18px;
+    display: none;
+}
+
+@keyframes grow
+{
+    50%  { transform: scale(1.5); }
+    100% { transform: scale(1); }
+}
+@keyframes shrink
+{
+    0%  { transform: scale(1); }
+    100% { transform: scale(0.8); }
+}
+
+.error.container:before {
+    display: block;
+    content: "";
+    background-color: #eee;
+    height: 103px;
+    width: 81px;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.4;
+    margin: -10px -4px;
+}
+
+.error {
+    display: none;
+    text-align: center;
+    font-size: 70px;
+    color: red;
+    border: 3px solid red;
+    border-radius: 5px;
+    width: 70px;
+    position: absolute;
+    top: 340px;
+    left: calc(50% - 35px);
+    right: calc(50% - 35px);
+    z-index: 1;
+}
+.error.visible {
+    display: block;
+    animation: grow 1s ease;
+    animation-iteration-count: 1;
+}
+.error.error-l-1.move {
+    left: 10px;
+    right: 0;
+    transition: left 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+.error.error-l-2.move {
+    left: 75px;
+    right: 0;
+    transition: left 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+.error.error-l-3.move {
+    left: 140px;
+    right: 0;
+    transition: left 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+.error.error-r-1.move {
+    left: auto;
+    right: 10px;
+    transition: right 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+.error.error-r-2.move {
+    left: auto;
+    right: 75px;
+    transition: right 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+.error.error-r-3.move {
+    left: auto;
+    right: 140px;
+    transition: right 2s ease-in-out;
+    animation: shrink 2s ease;
+    animation-iteration-count: 1;
+    transform: scale(0.8);
+}
+
+.displays {
+    padding: 30px;
+    border: 10px solid #ccc;
+    background-color: #222;
+    border-radius: 30px;
+    box-shadow: 0 0 12px 4px #000 inset;
+    width: calc(100vw - 520px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 1439px) {
+    .displays {
+        transform: scale(0.9);
+        width: 920px;
+        margin-top: -25px;
+    }
+}
+@media screen and (max-width: 1279px) {
+    .displays {
+        transform: scale(0.8);
+        width: 920px;
+        margin-top: -45px;
+    }
+}
+@media screen and (max-width: 1179px) {
+    .displays {
+        transform: scale(0.6);
+        width: 920px;
+        margin-top: -95px;
+    }
+}
+
+.display.text {
+    float: left;
+}
+
+.flapper {
+    margin-bottom: 2px;
+    text-align: center;
+}
+
+.inputarea {
+    margin: 24px 0;
+}
+
+div.inline {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+div.activity {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: #250000;
+    position: relative;
+    top: 33px;
+    left: -15px;
+}
+
+div.activity.active {
+    background-color: #f00;
+}

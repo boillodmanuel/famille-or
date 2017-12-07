@@ -1,0 +1,79 @@
+body {
+    background-color: #ff7a6c;
+}
+
+body .command {
+    display: none;
+}
+
+body.ready {
+    background-color: #fff;
+}
+
+body.ready .status {
+    display: none;
+}
+
+body.ready .command {
+    display: block;
+}
+
+.players {
+    width: 600px;
+    text-align: center;
+}
+.players .header {
+    font-weight: bold;
+}
+
+.responses {
+    display: table;
+    border-spacing: 10px;
+}
+.responses > * {
+    display: table-row;
+}
+.responses .num,
+.responses .text,
+.responses .score {
+    display: table-cell;
+}
+.responses .num {
+    width: 40px;
+}
+.responses .text {
+    min-width: 100px;
+}
+.responses .score {
+    width: 70px;
+    text-align: right;
+}
+
+.pagination li {
+    padding: .1875rem .625rem;
+}
+
+.pagination-previous, .pagination-next{
+    display: block;
+    border-radius: 0;
+    background: #1779ba;
+    color: #fefefe;
+    cursor: pointer;
+}
+.pagination-previous.inactive, .pagination-next.inactive{
+    color: #cacaca;
+    cursor: not-allowed;
+    background: transparent;
+    pointer-events: none;
+}
+.pagination-previous::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: '\00ab';
+}
+.pagination-next::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    content: '\00bb';
+}
+
