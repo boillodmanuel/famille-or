@@ -6,6 +6,8 @@ body {
 
 .page {
     margin: 30px auto 0;
+    max-width: 1600px;
+    position: relative;
 }
 
 h1 {
@@ -138,7 +140,28 @@ h1 {
     transform: scale(0.8);
 }
 
+.team .score {
+    margin-top: 160px;
+}
+#team-boy .flapper .digit {
+    background-color: hsl(203, 88%, 54%);
+    border-color: hsl(203, 88%, 34%);
+}
+#team-boy .flapper .digit div {
+    background-color: hsl(203, 88%, 74%);
+    color: hsl(203, 88%, 30%);
+}
+#team-girl .flapper .digit {
+    background-color: hsla(336, 71%, 58%, 1);
+    border-color: hsla(336, 71%, 38%, 1);
+}
+#team-girl .flapper .digit div {
+    background-color: hsla(336, 71%, 78%, 1);
+    color: hsl(336, 71%, 30%);
+}
+
 .displays {
+    max-width: 920px;
     padding: 30px;
     border: 10px solid #ccc;
     background-color: #222;
@@ -147,6 +170,7 @@ h1 {
     width: calc(100vw - 520px);
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 1439px) {
@@ -154,6 +178,7 @@ h1 {
         transform: scale(0.9);
         width: 920px;
         margin-top: -25px;
+        margin-bottom: -10px;
     }
 }
 @media screen and (max-width: 1279px) {
@@ -161,6 +186,7 @@ h1 {
         transform: scale(0.8);
         width: 920px;
         margin-top: -45px;
+        margin-bottom: -20px;
     }
 }
 @media screen and (max-width: 1179px) {
@@ -168,6 +194,7 @@ h1 {
         transform: scale(0.6);
         width: 920px;
         margin-top: -95px;
+        margin-bottom: -40px;
     }
 }
 
@@ -201,4 +228,43 @@ div.activity {
 
 div.activity.active {
     background-color: #f00;
+}
+
+
+.timer {
+    text-align: center;
+    font-size: 55px;
+    color: #222;
+    height: 160px;
+    width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+}
+.timer .bubble {
+    display: none;
+}
+.timer.visible .bubble{
+    display: block;
+}
+
+.timer h2 {
+    text-align:center;
+    position: absolute;
+    width: 160px;
+    top: -30px;
+    color: #fff;
+}
+.timer.hurry h2 {
+    color: red;
+}
+
+.timer h2.shake {
+    animation: shake 0.4s linear;
+}
+.timer.hurry h2.shake {
+    animation: big-shake 0.4s linear;
+}
+.timer.hurry .bubble .bubble-inner {
+    box-shadow: 0 -0.1425vw 0.24vw #f18b8b inset, 0 -0.3825vw 0.96vw #c3b8b8 inset, 0 0.075vw 0.075vw #f96c6c inset, 0.075vw 0 0.24vw #bf5555 inset, -0.075vw 0 0.24vw #4e1717 inset, 0 0.195vw 0.96vw #ffeeee inset;
 }

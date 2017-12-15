@@ -73,7 +73,7 @@ $(document).ready(function () {
 
     var domain = 'http://localhost:9000';
     var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5'];
-    var teamActions = ['error', 'errorTeam1', 'errorTeam2', ];
+    var teamActions = ['error', 'errorTeam1', 'errorTeam2', 'scoreTeam1', 'scoreTeam2', 'startTimer', 'endTimer'];
     var paginations = ['previous', 'next'];
     var gameWindow;
     var questionNum = 0;
@@ -98,6 +98,19 @@ $(document).ready(function () {
         $('.pagination .q' + newValue).html(newValue);
         $('.pagination-previous').toggleClass('inactive', questionNum === 1);
         $('.pagination-next').toggleClass('inactive', questionNum === questionCount);
+    };
+
+    var doPaginationAction = function (action) {
+        var message = {
+            'action': action
+        };
+        gameWindow.postMessage(message, domain);
+
+        if (action === 'previous') {
+            changeQuestion(questionNum, questionNum - 1);
+        } else if (action === 'next') {
+            changeQuestion(questionNum, questionNum + 1);
+        }
     };
 
     var init = function () {
@@ -128,26 +141,19 @@ $(document).ready(function () {
         teamActions.forEach(function (action) {
             $('.' + action).click(function () {
                 var message = {
-                    'action': action,
+                    'action': action
                 };
                 gameWindow.postMessage(message, domain);
+
+                if (action.indexOf('score') === 0) {
+                    doPaginationAction('next');
+                }
             });
         }, this);
 
         paginations.forEach(function (action) {
             $('.pagination-' + action).click(function () {
-                var message = {
-                    'action': action,
-                };
-                gameWindow.postMessage(message, domain);
-
-                if (action === 'previous') {
-                    changeQuestion(questionNum, questionNum-1);
-                } else if (action === 'next') {
-                    changeQuestion(questionNum, questionNum+1);
-                } else if (action.indexOf('r') === 0) {
-
-                }
+                doPaginationAction(action);
             });
         }, this);
     };
