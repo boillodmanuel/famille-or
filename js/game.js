@@ -11,6 +11,15 @@ $(document).ready(function () {
     var scoreTeam2 = 0;
 
     var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5'];
+    var sounds = ['errorSound', '3errorsSound', 'cashSound', 'answerSound', 'timerStartSound', 'timerEndSound'];
+
+    var play = function(e) {
+        sounds.forEach( function(sound) {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+        document.getElementById(e).play();
+    };
 
     var onAnimStart = function (e) {
         var $display = $(e.target);
@@ -59,7 +68,7 @@ $(document).ready(function () {
                 clearInterval(scoreInterval);
             }
         }, 100);
-        document.getElementById("cashSound").play();
+        play("cashSound");
     }
 
     function scoreGirl(score) {
@@ -72,7 +81,7 @@ $(document).ready(function () {
                 clearInterval(scoreInterval);
             }
         }, 100);
-        document.getElementById("cashSound").play();
+        play("cashSound");
     }
 
     responseIds.forEach(function (responseId) {
@@ -112,24 +121,29 @@ $(document).ready(function () {
             }, 2000);
         }, 2000);
         if (errorNum === 3) {
-            document.getElementById("3errorsSound").play();
+            document.getElementById("errorSound").stop();
+            document.getElementById("3errorsSound").stop();
+            play("3errorsSound");
         } else {
-            document.getElementById("errorSound").play();
+            play("errorSound");
         }
     }
 
     var timerInterval = 0;
-    var timerSoundTimeout = 0;
+    var timerSound1Timeout = 0;
+    var timerSound2Timeout = 0;
 
     function startTimer() {
         var time = 10; /* how long the timer runs for */
         $('.timer h2').text(time);
         $('.timer').removeClass('hurry');
         $('.timer').addClass('visible');
-        document.getElementById("timerStartSound").play();
-        timerSoundTimeout = setTimeout(function() {
-            document.getElementById("timerEndSound").play();
-        }, 6000);
+        timerSound1Timeout = setTimeout(function() {
+            play("timerStartSound");
+        }, 1000);
+        timerSound2Timeout = setTimeout(function() {
+            play("timerEndSound");
+        }, 6400);
         timerInterval = setInterval(function() {
             $('.timer h2').text(time);
             $('.timer h2').addClass('shake');
@@ -152,7 +166,8 @@ $(document).ready(function () {
     function endTimer() {
         $('.timer').removeClass('visible');
         clearInterval(timerInterval);
-        clearTimeout(timerSoundTimeout);
+        clearTimeout(timerSound1Timeout);
+        clearTimeout(timerSound2Timeout);
         document.getElementById("timerStartSound").stop();
         document.getElementById("timerEndSound").stop();
 
@@ -178,7 +193,7 @@ $(document).ready(function () {
             setTimeout(function() {
                 $('.' + errorId).removeClass('visible');
             }, 2000);
-            document.getElementById("errorSound").play();
+            play("errorSound");
         } else if (action === 'errorTeam1') {
             badReponsesTeam1++;
             if (badReponsesTeam1 <= 3) {
@@ -202,9 +217,9 @@ $(document).ready(function () {
             flappers[responseId + 'text'].val(text).change();
             setTimeout(function () {
                 flappers[responseId + 'score'].val(score).change();
-                document.getElementById("cashSound").play();
+                play("cashSound");
             }, 2000);
-            document.getElementById("answerSound").play();
+            play("answerSound");
             console.log('received response:  ', event.data);
         }
     }, false);
