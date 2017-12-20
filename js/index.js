@@ -1,82 +1,9 @@
 $(document).ready(function () {
-    var questions = {
-        1: {
-            question: 'Quelle est la couleur préférée des français ?',
-            r1: {
-                text: 'bleu',
-                score: 40
-            },
-            r2: {
-                text: 'vert',
-                score: 20
-            },
-            r3: {
-                text: 'rouge',
-                score: 10
-            },
-            r4: {
-                text: 'jaune',
-                score: 5
-            },
-            r5: {
-                text: 'blanc',
-                score: 1
-            }
-        },
-        2: {
-            question: 'Quelles sont nos numéros préféres',
-            r1: {
-                text: '1',
-                score: 35
-            },
-            r2: {
-                text: '2',
-                score: 25
-            },
-            r3: {
-                text: '3',
-                score: 15
-            },
-            r4: {
-                text: '4',
-                score: 5
-            },
-            r5: {
-                text: '5',
-                score: 1
-            }
-        },
-        3: {
-            question: 'Quels sont nos amis préférés',
-            r1: {
-                text: 'Oups',
-                score: 20
-            },
-            r2: {
-                text: 'Oups',
-                score: 20
-            },
-            r3: {
-                text: 'Oups',
-                score: 20
-            },
-            r4: {
-                text: 'Oups',
-                score: 20
-            },
-            r5: {
-                text: 'Oups',
-                score: 20
-            }
-        }
-    };
-
-    var domain = 'http://localhost:9000';
-    var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5'];
+    var questionNum = 0;
+    var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'];
     var teamActions = ['error', 'errorTeam1', 'errorTeam2', 'scoreTeam1', 'scoreTeam2', 'startTimer', 'endTimer'];
     var paginations = ['previous', 'next'];
     var gameWindow;
-    var questionNum = 0;
     var questionCount = Object.keys(questions).length;
 
     var changeQuestion = function (previousValue, newValue) {
@@ -141,7 +68,8 @@ $(document).ready(function () {
         teamActions.forEach(function (action) {
             $('.' + action).click(function () {
                 var message = {
-                    'action': action
+                    'action': action,
+                    'question': questions[questionNum]
                 };
                 gameWindow.postMessage(message, domain);
 

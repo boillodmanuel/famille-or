@@ -48,7 +48,9 @@ body.ready .command {
     width: 70px;
     text-align: right;
 }
-
+.responses .button {
+    margin-bottom: 0;
+}
 .pagination li {
     padding: .1875rem .625rem;
 }

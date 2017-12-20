@@ -10,14 +10,19 @@ $(document).ready(function () {
     var scoreTeam1 = 0;
     var scoreTeam2 = 0;
 
-    var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5'];
+    var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'];
     var sounds = ['errorSound', '3errorsSound', 'cashSound', 'answerSound', 'timerStartSound', 'timerEndSound'];
 
-    var play = function(e) {
-        sounds.forEach( function(sound) {
+    var pause = function() {
+        sounds.forEach( function(s) {
+            var sound = document.getElementById(s);
             sound.pause();
             sound.currentTime = 0;
         });
+    };
+
+    var play = function(e) {
+        pause();
         document.getElementById(e).play();
     };
 
@@ -25,14 +30,12 @@ $(document).ready(function () {
         var $display = $(e.target);
         $display.parent('.line').children('.activity').addClass('active');
         boardBusy++;
-        console.log("start " + boardBusy);
     };
 
     var onAnimEnd = function (e) {
         var $display = $(e.target);
         $display.parent('.line').children('.activity').removeClass('active');
         boardBusy--;
-        console.log("end " + boardBusy);
     };
 
     var textOpts = {
@@ -57,28 +60,25 @@ $(document).ready(function () {
     flappers['boy'] = $('#team-boy').find('.score').flapper(teamScoreOpts);
     flappers['girl'] = $('#team-girl').find('.score').flapper(teamScoreOpts);
 
-    function scoreBoy(score) {
+    function scoreBoy(score, coeff) {
         var scoreInterval = setInterval(function() {
-            console.log("score? " + boardBusy);
-
             if (boardBusy === 0) {
-                scoreTeam1 += score;
+                clearInterval(scoreInterval);
+                scoreTeam1 += score * coeff;
                 flappers['boy'].val(scoreTeam1).change();
                 scoreEnCours=0;
-                clearInterval(scoreInterval);
             }
         }, 100);
         play("cashSound");
     }
 
-    function scoreGirl(score) {
+    function scoreGirl(score, coeff) {
         var scoreInterval = setInterval(function() {
-            console.log("score? " + boardBusy);
             if (boardBusy === 0) {
-                scoreTeam2 += score;
+                clearInterval(scoreInterval);
+                scoreTeam2 += score * coeff;
                 flappers['girl'].val(scoreTeam2).change();
                 scoreEnCours=0;
-                clearInterval(scoreInterval);
             }
         }, 100);
         play("cashSound");
@@ -95,7 +95,7 @@ $(document).ready(function () {
     var changeQuestionNum = function () {
         var changeQuestionInterval = setInterval(function() {
             if (boardBusy === 0) {
-                boardBusy = 0;
+                clearInterval(changeQuestionInterval);
                 scoreEnCours = 0;
                 badReponsesTeam1 = 0;
                 badReponsesTeam2 = 0;
@@ -105,7 +105,6 @@ $(document).ready(function () {
                     flappers[responseId + 'text'].val('').change();
                     flappers[responseId + 'score'].val('').change();
                 });
-                clearInterval(changeQuestionInterval);
             }
         });
     };
@@ -121,8 +120,6 @@ $(document).ready(function () {
             }, 2000);
         }, 2000);
         if (errorNum === 3) {
-            document.getElementById("errorSound").stop();
-            document.getElementById("3errorsSound").stop();
             play("3errorsSound");
         } else {
             play("errorSound");
@@ -168,8 +165,7 @@ $(document).ready(function () {
         clearInterval(timerInterval);
         clearTimeout(timerSound1Timeout);
         clearTimeout(timerSound2Timeout);
-        document.getElementById("timerStartSound").stop();
-        document.getElementById("timerEndSound").stop();
+        pause();
 
     }
 
@@ -205,9 +201,9 @@ $(document).ready(function () {
                 displayTeamError('error-r-', badReponsesTeam2);
             }
         } else if (action === 'scoreTeam1') {
-            scoreBoy(scoreEnCours);
+            scoreBoy(scoreEnCours, event.data.question.coeff || 1);
         } else if (action === 'scoreTeam2') {
-            scoreGirl(scoreEnCours);
+            scoreGirl(scoreEnCours, event.data.question.coeff || 1);
         } else {
             var responseId = action;
             var value = event.data.value;
@@ -220,7 +216,6 @@ $(document).ready(function () {
                 play("cashSound");
             }, 2000);
             play("answerSound");
-            console.log('received response:  ', event.data);
         }
     }, false);
 
