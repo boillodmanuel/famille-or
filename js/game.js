@@ -153,19 +153,19 @@ $(document).ready(function () {
             if (time === 0) {
                 clearInterval(timerInterval);
                 setTimeout(function() {
-                    endTimer();
+                    endTimer(true);
                 }, 1000);
             }
             time--;
         }, 1000);
     }
 
-    function endTimer() {
+    function endTimer(timeout) {
         $('.timer').removeClass('visible');
         clearInterval(timerInterval);
         clearTimeout(timerSound1Timeout);
         clearTimeout(timerSound2Timeout);
-        pause();
+        if (!timeout) pause();
 
     }
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
         } else if (action === 'startTimer') {
             startTimer();
         } else if (action === 'endTimer') {
-            endTimer();
+            endTimer(false);
         } else if (action === 'error') {
             var errorId = 'error-tmp';
             $('.page').append('<div class="error ' + errorId +'">X</div>');
