@@ -59,6 +59,7 @@ $(document).ready(function () {
                 clearInterval(scoreInterval);
             }
         }, 100);
+        document.getElementById("cashSound").play();
     }
 
     function scoreGirl(score) {
@@ -71,7 +72,8 @@ $(document).ready(function () {
                 clearInterval(scoreInterval);
             }
         }, 100);
-    };
+        document.getElementById("cashSound").play();
+    }
 
     responseIds.forEach(function (responseId) {
         flappers[responseId + 'text'] = $('#' + responseId + 'text').flapper(textOpts);
@@ -99,7 +101,8 @@ $(document).ready(function () {
         });
     };
 
-    function displayTeamError(errorId) {
+    function displayTeamError(errorIdPrefix, errorNum) {
+        var errorId = errorIdPrefix + errorNum;
         $('.page').append('<div class="error ' + errorId +'">X</div>');
         $('.' + errorId).addClass('visible');
         setTimeout(function() {
@@ -108,15 +111,25 @@ $(document).ready(function () {
                 $('.' + errorId).addClass('container');
             }, 2000);
         }, 2000);
+        if (errorNum === 3) {
+            document.getElementById("3errorsSound").play();
+        } else {
+            document.getElementById("errorSound").play();
+        }
     }
 
     var timerInterval = 0;
+    var timerSoundTimeout = 0;
 
     function startTimer() {
         var time = 10; /* how long the timer runs for */
         $('.timer h2').text(time);
         $('.timer').removeClass('hurry');
         $('.timer').addClass('visible');
+        document.getElementById("timerStartSound").play();
+        timerSoundTimeout = setTimeout(function() {
+            document.getElementById("timerEndSound").play();
+        }, 6000);
         timerInterval = setInterval(function() {
             $('.timer h2').text(time);
             $('.timer h2').addClass('shake');
@@ -139,6 +152,10 @@ $(document).ready(function () {
     function endTimer() {
         $('.timer').removeClass('visible');
         clearInterval(timerInterval);
+        clearTimeout(timerSoundTimeout);
+        document.getElementById("timerStartSound").stop();
+        document.getElementById("timerEndSound").stop();
+
     }
 
     window.addEventListener('message', function (event) {
@@ -161,15 +178,16 @@ $(document).ready(function () {
             setTimeout(function() {
                 $('.' + errorId).removeClass('visible');
             }, 2000);
+            document.getElementById("errorSound").play();
         } else if (action === 'errorTeam1') {
             badReponsesTeam1++;
             if (badReponsesTeam1 <= 3) {
-                displayTeamError('error-l-' + badReponsesTeam1);
+                displayTeamError('error-l-', badReponsesTeam1);
             }
         } else if (action === 'errorTeam2') {
             badReponsesTeam2++;
             if (badReponsesTeam2 <= 3) {
-                displayTeamError('error-r-' + badReponsesTeam2);
+                displayTeamError('error-r-', badReponsesTeam2);
             }
         } else if (action === 'scoreTeam1') {
             scoreBoy(scoreEnCours);
@@ -184,8 +202,26 @@ $(document).ready(function () {
             flappers[responseId + 'text'].val(text).change();
             setTimeout(function () {
                 flappers[responseId + 'score'].val(score).change();
+                document.getElementById("cashSound").play();
             }, 2000);
+            document.getElementById("answerSound").play();
             console.log('received response:  ', event.data);
         }
     }, false);
+
+
+
+    var bubbleIndex = 0;
+
+    var bubble = function() {
+        bubbleIndex++;
+        var bubblePosition = bubbleIndex % 40 + 1;
+        var bubbleType = Math.round((Math.random() * 1000)) % 6 + 1;
+        var bubbleIndexToDelete = bubbleIndex;
+        $('body').append('<label id="bubble' + bubbleIndex + '" class="bubble type' + bubbleType + ' position' + bubblePosition + '"><span class="bubble-inner"><span></span></span></label>');
+        setTimeout(function() {
+            $('#bubble' + bubbleIndexToDelete).remove();
+        }, 60000);
+    };
+    setInterval(bubble, 5000);
 });
