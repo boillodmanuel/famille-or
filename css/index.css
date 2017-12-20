@@ -19,11 +19,14 @@ body.ready .command {
 }
 
 .players {
-    width: 600px;
+    width: 700px;
     text-align: center;
 }
 .players .header {
     font-weight: bold;
+}
+.players .button {
+    width: 150px;
 }
 
 .responses {

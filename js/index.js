@@ -9,7 +9,7 @@ $(document).ready(function () {
     var changeQuestion = function (previousValue, newValue) {
         questionNum = newValue;
 
-        $('.questionNum').html('Question n˚' + questionNum);
+        $('.questionNum').html('N˚' + questionNum);
         $('.questionText').html(questions[questionNum].question);
 
         responseIds.forEach(function (responseId) {
