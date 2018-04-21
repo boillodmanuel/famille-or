@@ -1,10 +1,12 @@
 $(document).ready(function () {
     var questionNum = 0;
-    var responseIds = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'];
+    var responseIds = [];
     var teamActions = ['error', 'errorTeam1', 'errorTeam2', 'scoreTeam1', 'scoreTeam2', 'startTimer', 'endTimer'];
     var paginations = ['previous', 'next'];
     var gameWindow;
     var questionCount = Object.keys(questions).length;
+
+    var nbReponses = settings.nbReponses;
 
     var changeQuestion = function (previousValue, newValue) {
         questionNum = newValue;
@@ -16,7 +18,9 @@ $(document).ready(function () {
             var response = questions[questionNum][responseId];
             $('.' + responseId + ' .text').html(response.text);
             $('.' + responseId + ' .score').html(response.score);
-            $('.' + responseId + ' .button').prop('disabled', false);
+            $('.' + responseId + ' .button.reponse').prop('disabled', false);
+            $('.' + responseId + ' .button.video').prop('disabled', !response.video);
+
         }, this);
 
         $('.pagination .q' + previousValue).removeClass('current');
@@ -25,6 +29,8 @@ $(document).ready(function () {
         $('.pagination .q' + newValue).html(newValue);
         $('.pagination-previous').toggleClass('inactive', questionNum === 1);
         $('.pagination-next').toggleClass('inactive', questionNum === questionCount);
+        $('.scoreTeam1 .button').prop('disabled', false);
+        $('.scoreTeam2 .button').prop('disabled', false);
     };
 
     var doPaginationAction = function (action) {
@@ -41,10 +47,29 @@ $(document).ready(function () {
     };
 
     var init = function () {
+
+        for (i = 1; i <= nbReponses; i++) {
+            responseIds.push('r' + i);
+            $('.responses').append(
+              '<div class="r' + i + '">' +
+                '<span class="num">N˚' + i + '</span>' +
+                '<span class="text"></span>' +
+                '<span class="score"></span>' +
+                '<button class="button reponse">Affiche la réponse </button>' +
+                '<button class="button warning video">Vidéo</button>' +
+              '</div>');
+        }
+
         $('#openGame').click(function () {
             gameWindow = window.open(domain + '/game.html', 'game');
             $('body').addClass('ready');
             changeQuestion(1, 1);
+        });
+
+        $('#restartGame').click(function () {
+          if (confirm('Restart game?')) {
+            document.location.reload(true);
+          }
         });
 
         Object.keys(questions).forEach(function (i) {
@@ -53,7 +78,7 @@ $(document).ready(function () {
         });
 
         responseIds.forEach(function (action) {
-            $('.' + action + ' .button').click(function () {
+            $('.' + action + ' .button.reponse').click(function () {
                 var value = questions[questionNum][action];
 
                 var message = {
@@ -61,7 +86,17 @@ $(document).ready(function () {
                     'value': value
                 };
                 gameWindow.postMessage(message, domain);
-                $('.' + action + ' .button').prop('disabled', true);
+                $('.' + action + ' .button.response').prop('disabled', true);
+            });
+
+            $('.' + action + ' .button.video').click(function () {
+                var value = questions[questionNum][action].video;
+
+                var message = {
+                    'action': 'video',
+                    'value': value
+                };
+                gameWindow.postMessage(message, domain);
             });
         }, this);
 
@@ -74,9 +109,11 @@ $(document).ready(function () {
                 gameWindow.postMessage(message, domain);
 
                 if (action.indexOf('score') === 0) {
-                    doPaginationAction('next');
+                  $('.scoreTeam1 .button').prop('disabled', true);
+                  $('.scoreTeam2 .button').prop('disabled', true);
                 }
             });
+
         }, this);
 
         paginations.forEach(function (action) {

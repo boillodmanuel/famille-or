@@ -1,9 +1,14 @@
+var settings = {
+  nbReponses: 5
+};
+
 var questions = {
     1: {
         question: 'Quelle est la couleur préférée des français ?',
         r1: {
             text: 'bleu',
-            score: 40
+            score: 40,
+            video: 'lego.mp4'
         },
         r2: {
             text: 'vert',

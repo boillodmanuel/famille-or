@@ -54,6 +54,9 @@ body.ready .command {
 .responses .button {
     margin-bottom: 0;
 }
+.responses .button.video {
+    margin-left: 10px;
+}
 .pagination li {
     padding: .1875rem .625rem;
 }
@@ -81,4 +84,3 @@ body.ready .command {
     margin-left: 0.5rem;
     content: '\00bb';
 }
-

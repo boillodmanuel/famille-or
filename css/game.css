@@ -160,17 +160,48 @@ h1 {
     color: hsl(336, 71%, 30%);
 }
 
+.video {
+  opacity: 0;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: 140px;
+  z-index: 1;
+  text-align: center;
+  transition: background-color 1s ease-out, opacity 1s ease-out;
+}
+
+.video.play {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.video video {
+  width: calc(100% - 40px);
+  position: relative;
+  margin: 20px 20px 0 20px;
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; width: 30%;}
+    to   { opacity: 1; width: calc(100% - 40px);}
+}
+
+
 .displays {
-    max-width: 920px;
-    padding: 30px;
-    border: 10px solid #ccc;
-    background-color: #222;
-    border-radius: 30px;
-    box-shadow: 0 0 12px 4px #000 inset;
-    width: calc(100vw - 520px);
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
+  max-width: 920px;
+  width: calc(100vw - 520px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  padding: 30px;
+  border: 10px solid #ccc;
+  background-color: #222;
+  border-radius: 30px;
+  box-shadow: 0 0 12px 4px #000 inset;
 }
 
 @media screen and (max-width: 1439px) {

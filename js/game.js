@@ -26,6 +26,17 @@ $(document).ready(function () {
         document.getElementById(e).play();
     };
 
+    var endVideo = function() {
+      $('.video video').fadeOut(2000);
+      $('.video').removeClass('play');
+    }
+
+    var playVideo = function(video) {
+        $('.video').addClass('play');
+        $('.video').html('<video src="/video/' + video + '" autoplay></video>');
+        $('.video video').on('ended', endVideo);
+    };
+
     var onAnimStart = function (e) {
         var $display = $(e.target);
         $display.parent('.line').children('.activity').addClass('active');
@@ -204,6 +215,9 @@ $(document).ready(function () {
             scoreBoy(scoreEnCours, event.data.question.coeff || 1);
         } else if (action === 'scoreTeam2') {
             scoreGirl(scoreEnCours, event.data.question.coeff || 1);
+        } else if (action === 'video') {
+            var video = event.data.value;
+            playVideo(video);
         } else {
             var responseId = action;
             var value = event.data.value;
